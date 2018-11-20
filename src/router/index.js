@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Common from '@/components/common/common'
+import SystemCommon from '@/components/common/systemCommon'
 
 Vue.use(Router)
 
@@ -11,6 +12,8 @@ const techSalon = r => require.ensure([], () => r(require('../views/techSalon'))
 const register = r => require.ensure([], () => r(require('../views/account/register')), 'register')
 const login = r => require.ensure([], () => r(require('../views/account/login')), 'login')
 const artDetail = r => require.ensure([], () => r(require('../views/articles/artDetail')), 'artDetail')
+const artManage = r => require.ensure([], () => r(require('../views/system/artManage')), 'artManage')
+const addArticle = r => require.ensure([], () => r(require('../views/system/addArticle.vue')), 'addArticle');
 export default new Router({
   routes: [
     {
@@ -49,6 +52,20 @@ export default new Router({
         {
           path: '/user/login',
           component: login
+        }
+      ]
+    },
+    {
+      path: '/manage',
+      component: SystemCommon,
+      children: [
+        {
+          path: '/',
+          component: artManage
+        },
+        {
+          path: '/manage/addArticle',
+          component: addArticle
         }
       ]
     }
