@@ -11,7 +11,7 @@ const artModel = require("../../models/article/Article.js");    //文章业务�
 //文章列表
 
 //新增文章
-router.get("/addArticle", function (req, res, next) {
+router.post("/addArticle", function (req, res, next) {
     //传入req对象
     artModel.addForm(req, function(err){
         if(err == '-1'){

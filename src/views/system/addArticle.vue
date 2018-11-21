@@ -52,7 +52,7 @@
         },
         methods: {
             addForm(){
-                axios.get('/api/server/addArticle', {
+                axios.post('/server/addArticle', {
                     title: this.form.title,
                     author: this.form.author})
                 .then( (res) => {
