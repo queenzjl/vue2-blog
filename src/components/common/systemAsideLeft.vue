@@ -14,8 +14,8 @@
                             <span>文章管理</span>
                         </el-menu-item>
                     </router-link>
-                    <router-link to="/manage/artTypes">
-                        <el-menu-item index="artTypes">
+                    <router-link to="/manage/artType">
+                        <el-menu-item index="artType">
                             <span>分类管理</span>
                         </el-menu-item>
                     </router-link>

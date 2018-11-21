@@ -44,6 +44,7 @@
     "jest": "^22.0.4",
     "jest-serializer-vue": "^0.3.0",
     "mockjs": "^1.0.1-beta3",
+    "moment": "^2.22.2",
     "mongoose": "^5.3.12",
     "nightwatch": "^0.9.12",
     "node-notifier": "^5.1.2",

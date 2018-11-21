@@ -11,8 +11,10 @@
                 <el-form-item label="标签">
                     <el-input v-model="form.tags"></el-input>
                 </el-form-item>
-                <el-form-item label="分类" prop="region">
-                    <el-input v-model="form.type"></el-input>
+                <el-form-item label="分类">
+                    <el-checkbox-group v-model="form.type" >
+                        <el-checkbox v-for="item in artTypes" :label=item name="type"></el-checkbox>
+                    </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="阅读人数">
                     
@@ -27,7 +29,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="addForm()">立即创建</el-button>
-                    <el-button>取消</el-button>
+                    <router-link to="/manage"><el-button>取消</el-button></router-link>
                 </el-form-item>
             </el-form>
         </el-row>
@@ -43,12 +45,27 @@
                     title: '',
                     author: '',
                     tags: '',
-                    type: '',
+                    type: [],
                     read: '',
                     support: '',
                     content: ''
-                }
+                },
+                artTypes: []
             }
+        },
+        mounted(){
+            axios.get('/art/artTypeList').then( (res) => {
+                console.log(res.data.results);
+                if( res.data.code == 0 ){
+                    let results = res.data.results;
+                    //格式化时间
+                    for(let i in results){
+                        this.artTypes.push(results[i].name);
+                        this.form.type.push(results[i]._id);
+                    }
+                    console.log(this.form.type)
+                }
+            })
         },
         methods: {
             addForm(){

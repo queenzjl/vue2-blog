@@ -5,7 +5,10 @@ const Schema = mongoose.Schema;
 const articleSchema = new Schema({
     title: String,
     author: String,
-    type: String,
+    type: {
+        type: Schema.Types.ObjectId,
+        ref: "ArcType"
+    },
     tags: String,
     read: Number,
     content: String,

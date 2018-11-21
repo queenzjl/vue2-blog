@@ -6,8 +6,8 @@ const express = require("express");
 
 const router = express.Router();
 
-const artModel = require("../../models/article/Article.js");    //文章业务模块
-
+const artModel = require("../../models/article/article.js");    //文章业务模块
+const artTypeModel = require("../../models/article/artType.js");
 //文章列表
 
 //新增文章
@@ -33,5 +33,11 @@ router.post("/addArticle", function (req, res, next) {
         });
     })
 })
+//查询文章分类
+// router.get("/addArticle", function(req, res, next){
+//     //查询分类
+//     artTypeModel.findType({}, function(err, result){
 
+//     })
+// })
 module.exports = router;
