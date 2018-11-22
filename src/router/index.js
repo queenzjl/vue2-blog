@@ -12,10 +12,12 @@ const techSalon = r => require.ensure([], () => r(require('../views/techSalon'))
 const register = r => require.ensure([], () => r(require('../views/account/register')), 'register')
 const login = r => require.ensure([], () => r(require('../views/account/login')), 'login')
 const artDetail = r => require.ensure([], () => r(require('../views/articles/artDetail')), 'artDetail')
-const artManage = r => require.ensure([], () => r(require('../views/system/artManage')), 'artManage')
+const article = r => require.ensure([], () => r(require('../views/system/article')), 'article')
 const addArticle = r => require.ensure([], () => r(require('../views/system/addArticle.vue')), 'addArticle');
 const artType = r => require.ensure([], () => r(require('../views/system/artType.vue')),'artType');
 const addType = r => require.ensure([], () => r(require('../views/system/addType.vue')), 'addType');
+const artTag = r => require.ensure([], () => r(require('../views/system/artTag.vue')), 'artTag');
+const addTag = r => require.ensure([], () => r(require('../views/system/addTag.vue')), 'addTag');
 
 export default new Router({
   routes: [
@@ -64,11 +66,11 @@ export default new Router({
       children: [
         {
           path: '/',
-          component: artManage
+          component: article
         },
         {
-          path: '/manage/artManage',
-          component: artManage
+          path: '/manage/article',
+          component: article
         },
         {
           path: '/manage/addArticle',
@@ -82,6 +84,14 @@ export default new Router({
           path: '/manage/addType',
           component: addType
         },
+        {
+          path: '/manage/artTag',
+          component: artTag
+        },
+        {
+          path: '/manage/addTag',
+          component: addTag
+        }
       ]
     }
   ]

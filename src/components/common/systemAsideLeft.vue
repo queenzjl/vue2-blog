@@ -4,13 +4,13 @@
             <el-col :span="24">
                 <h5><router-link to="/">博客技术分享</router-link></h5>
                 <el-menu
-                    default-active="artManage"
+                    default-active="article"
                     class="el-menu-vertical-demo"
                     background-color="#2A2935"
                     text-color="#fff"
                     active-text-color="#32D3C3">
-                    <router-link to="/manage/artManage">
-                        <el-menu-item index="artManage">
+                    <router-link to="/manage/article">
+                        <el-menu-item index="article">
                             <span>文章管理</span>
                         </el-menu-item>
                     </router-link>
@@ -19,8 +19,8 @@
                             <span>分类管理</span>
                         </el-menu-item>
                     </router-link>
-                    <router-link to="/manage/tagManage">
-                        <el-menu-item index="tagManage">
+                    <router-link to="/manage/artTag">
+                        <el-menu-item index="artTag">
                             <span>标签管理</span>
                         </el-menu-item>
                     </router-link>

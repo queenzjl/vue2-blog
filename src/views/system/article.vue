@@ -7,7 +7,7 @@
             <el-table class="table"  :data="tableData" style="width: 100%">
                 <el-table-column align="center" prop="title" label="名称" ></el-table-column>
                 <el-table-column align="center" prop="author" label="作者"></el-table-column>
-                <el-table-column align="center" prop="tag" label="标签"></el-table-column>
+                <el-table-column align="center" prop="tags" label="标签"></el-table-column>
                 <el-table-column align="center" prop="type" label="分类"></el-table-column>
                 <el-table-column align="center" prop="read" label="阅读人数" ></el-table-column>
                 <el-table-column align="center" label="操作">
@@ -26,35 +26,27 @@
 
 
 <script>
+    import axios from 'axios';
     export default {
         data(){
             return {
-                tableData: [{
-                    title: '文章111',
-                    author: '静蕾',
-                    tag: 'javascript react',
-                    type: '前端',
-                    read: 150
-                }, {
-                    title: '文章111',
-                    author: '静蕾',
-                    tag: 'javascript react',
-                    type: '前端',
-                    read: 150
-                }, {
-                    title: '文章111',
-                    author: '静蕾',
-                    tag: 'javascript react',
-                    type: '前端',
-                    read: 150
-                }, {
-                    title: '文章111',
-                    author: '静蕾',
-                    tag: 'javascript react',
-                    type: '前端',
-                    read: 150
-                }]
+                tableData: []
             }
+        },
+        mounted(){
+            axios.get('/art/articleList').then( (res) => {
+                if(res.data.code == 0){
+                    let results = res.data.results || [];
+                    /* if(results){
+                        for(let i in results){
+                            results[i].type = results[i].type.name
+                            results[i].tags = results[i].type.tags
+                        }
+                    } */ 
+                    this.tableData = res.data.results || [];
+                    console.log(this.tableData)
+                }
+            })
         }
     }
 </script>

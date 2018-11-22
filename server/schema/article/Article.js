@@ -5,16 +5,25 @@ const Schema = mongoose.Schema;
 const articleSchema = new Schema({
     title: String,
     author: String,
-    type: {
+    type: [{
         type: Schema.Types.ObjectId,
         ref: "ArcType"
-    },
-    tags: String,
+    }],
+    tags: [{
+        type: Schema.Types.ObjectId,
+        ref: "ArtTag"
+    }],
     read: Number,
     content: String,
     support: Number,
-    createtime: Date,
-    updatetime: Date
+    createtime: {
+        type: Date,
+        default: Date.now
+    },
+    updatetime: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const Article = mongoose.model("Article", articleSchema);

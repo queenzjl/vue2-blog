@@ -7,7 +7,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="addForm()">立即创建</el-button>
-                    <router-link to="/manage/artType"><el-button>取消</el-button></router-link>
+                    <router-link to="/manage/artTag"><el-button>取消</el-button></router-link>
                 </el-form-item>
             </el-form>
         </el-row>
@@ -26,11 +26,11 @@
         },
         methods: {
             addForm(){
-                axios.post('/art/addType', this.form)
+                axios.post('/art/addArtTag', this.form)
                 .then( (res) => {
                     console.log(res)
                     if(res.data.code == 0){
-                        this.$router.push("/manage/artType");
+                        this.$router.push("/manage/artTag");
                     }
                 })
             }

@@ -1,31 +1,25 @@
 <template>
     <div class="content">
         <el-row>
-            <el-form ref="form" :model="form" label-width="80px">
-                <el-form-item label="标题">
+            <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+                <el-form-item label="标题" prop="title">
                     <el-input :span="10" v-model="form.title"></el-input>
                 </el-form-item>
                 <el-form-item label="作者">
                     <el-input v-model="form.author"></el-input>
                 </el-form-item>
-                <el-form-item label="标签">
-                    <el-input v-model="form.tags"></el-input>
-                </el-form-item>
-                <el-form-item label="分类">
-                    <el-checkbox-group v-model="form.type" >
-                        <el-checkbox v-for="item in artTypes" :label=item name="type"></el-checkbox>
+                <el-form-item label="标签" prop="tags" align="left">
+                    <el-checkbox-group v-model="form.tags">
+                        <el-checkbox v-for="item in artTags" :label="item._id" name="tags">{{item.name}}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-form-item label="阅读人数">
-                    
-                    <el-input v-model="form.read"></el-input>
+                <el-form-item label="分类" prop="type" align="left">
+                    <el-checkbox-group v-model="form.type" >
+                        <el-checkbox v-for="item in artTypes" :label="item._id" name="type">{{item.name}}</el-checkbox>
+                    </el-checkbox-group>
                 </el-form-item>
-                <el-form-item label="点赞">
-                    
-                    <el-input v-model="form.support"></el-input>
-                </el-form-item>
-                <el-form-item label="内容">
-                    <el-input type="textarea" v-model="form.content"></el-input>
+                <el-form-item label="内容" prop="content">
+                    <el-input type="textarea" v-model="form.content" aria-rowcount="10"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="addForm()">立即创建</el-button>
@@ -44,36 +38,50 @@
                 form: {
                     title: '',
                     author: '',
-                    tags: '',
+                    tags: [],
                     type: [],
                     read: '',
                     support: '',
                     content: ''
                 },
-                artTypes: []
+                rules: {
+                    title: [
+                        { required: true, message: '请输入文章标题', trigger: 'blur' },
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
+                    tags: [
+                        { type: 'array', required: true, message: '请至少选择一个标签', trigger: 'change' }
+                    ],
+                    type: [
+                        { type: 'array', required: true, message: '请至少选择一个文章分类', trigger: 'change' }
+                    ],
+                    content: [
+                        { required: true, message: '请输入文章内容', trigger: 'blur' }
+                    ]
+                },
+                artTypes: [],
+                artTags:[]
             }
         },
         mounted(){
             axios.get('/art/artTypeList').then( (res) => {
-                console.log(res.data.results);
-                if( res.data.code == 0 ){
-                    let results = res.data.results;
-                    //格式化时间
-                    for(let i in results){
-                        this.artTypes.push(results[i].name);
-                        this.form.type.push(results[i]._id);
-                    }
-                    console.log(this.form.type)
+                if(res.data.code == 0){
+                    this.artTypes = res.data.results;
+                }
+            })
+            axios.get('/art/artTagList').then( (res) => {
+                if(res.data.code == 0){
+                    this.artTags = res.data.results;
                 }
             })
         },
         methods: {
             addForm(){
-                axios.post('/server/addArticle', {
-                    title: this.form.title,
-                    author: this.form.author})
+                axios.post('/art/addArticle', this.form)
                 .then( (res) => {
-                    console.log(res)
+                    if(res.data.code == 0){
+                        this.$router.push('/manage')
+                    }
                 })
             }
         }
