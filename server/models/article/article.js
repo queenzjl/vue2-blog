@@ -6,7 +6,18 @@ const Article = require("../../schema/article/Article.js"); //实体操作对象
 
 module.exports = {
     findArticle: function(params, callback){
-        Article.find(params || {}).exec(function(err, result){
+        Article.find(params || {}).populate([{
+            path: 'type',select:'name -_id'
+          },{path: 'tags',select: 'name -_id'}]).exec(function (err, result) {
+              console.log(result)
+            callback(err, result);
+        })
+    },
+    findOne: function(params, callback){
+        Article.findOne(params || {}).populate([{
+            path:'type', select: 'name -_id'
+          },{path: 'tags', select: 'name -_id'}]).exec(function(err, result){
+                
             callback(err, result);
         })
     },

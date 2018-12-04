@@ -37,13 +37,21 @@
             axios.get('/art/articleList').then( (res) => {
                 if(res.data.code == 0){
                     let results = res.data.results || [];
-                    /* if(results){
+                    if(results){
                         for(let i in results){
-                            results[i].type = results[i].type.name
-                            results[i].tags = results[i].type.tags
+                            let nowType = results[i].type
+                            let nowTags = results[i].tags
+                            results[i].type = '';
+                            results[i].tags = '';
+                            for(let j in nowType){
+                                results[i].type += nowType[j].name + ' '
+                            }
+                            for(let j in nowTags){
+                                results[i].tags += nowTags[j].name+ ' '
+                            }
                         }
-                    } */ 
-                    this.tableData = res.data.results || [];
+                    } 
+                    this.tableData = results || [];
                     console.log(this.tableData)
                 }
             })

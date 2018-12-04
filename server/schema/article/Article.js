@@ -7,7 +7,7 @@ const articleSchema = new Schema({
     author: String,
     type: [{
         type: Schema.Types.ObjectId,
-        ref: "ArcType"
+        ref: "ArtType"
     }],
     tags: [{
         type: Schema.Types.ObjectId,

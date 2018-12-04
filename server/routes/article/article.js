@@ -26,6 +26,27 @@ router.get('/articleList', (req, res, next) => {
         })
     })
 })
+//查询谋篇文章
+router.get('/oneArticle',(req, res, next) => {
+    console.log(req.query)
+    artModel.findOne({
+          _id: req.query._id
+        }, (err, result) => {
+        if (err) {
+            res.json({
+                code: 417,
+                status: 1,
+                message: err
+            })
+            return;
+        }
+        res.json({
+            code: 0,
+            status: 200,
+            results: result
+        })
+    })
+})
 //新增文章
 router.post("/addArticle", function (req, res, next) {
     //传入req对象
