@@ -86,5 +86,30 @@ router.post('/updateType', (req, res, next) => {
             results: result
         })
     })
+}),
+router.get('/removeType', (req, res, next) => {
+    let params = req.query;
+    if (!params) {
+        res.json({
+            code: 417,
+            status: 1,
+            message: '未指定要删除的分类！'
+        })
+    }
+    artModel.remove(params, (err, result) => {
+        if (err) {
+            res.json({
+            code: 417,
+            status: 1,
+            message: err
+            })
+            return;
+        }
+        res.json({
+            code: 0,
+            status: 200,
+            results: result
+        })
+    })
 })
 module.exports = router;

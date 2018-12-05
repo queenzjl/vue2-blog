@@ -7,6 +7,10 @@ const artTagSchema = new Schema({
     createtime: {
         type: Date,
         default: Date.now
+    },
+    updatetime: {
+      type: Date,
+      default: Date.now
     }
 })
 

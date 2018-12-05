@@ -10,6 +10,11 @@ const artTypeSchema = new Schema({
         type: Date,
         default: Date.now, 
         get: v => moment(v).format('YYYY-MM-DD HH:mm')
+    },
+    updatetime: {
+      type: Date,
+      default: Date.now,
+      get: v => moment(v).format('YYYY-MM-DD HH:mm')
     }
 })
 

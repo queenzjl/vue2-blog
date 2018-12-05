@@ -46,5 +46,77 @@ router.get('/artTagList', (req, res, next) => {
         })
     })
 })
+router.get('/getOneTag', (req, res, next) => {
+    let _id = req.query._id;
+    if(!_id){
+        res.json({
+            code: 417,
+            status: 1,
+            message: "缺少参数"
+        })
+        return;
+    }
+    artTagModel.findOneTag(req.query, (err, result) => {
+        if(err){
+            res.json({
+                code: 417,
+                status: 1,
+                message: err
+            })
+            return;
+        }
+        res.json({
+            code: 0,
+            status: 200,
+            results: result 
+        })
+    })
+})
 
+//修改标签
+router.post('/updateOneTag', (req, res, next) => {
+    artTagModel.updateOne(req, (err, result) => {
+        if(err){
+            res.json({
+                code: 417,
+                status: 1,
+                message: err
+            })
+            return;
+        }
+        res.json({
+            code: 0,
+            status: 200,
+            results: result 
+        })
+    })
+})
+
+//删除
+router.get('/removeTag', (req, res, next) => {
+    let params = req.query;
+    if(!params){
+        res.json({
+          code: 417,
+          status: 1,
+          message: '未指定要删除的标签！'
+        })
+        return;
+    }
+    artTagModel.remove(params, (err, result) => {
+        if (err) {
+            res.json({
+                code: 417,
+                status: 1,
+                message: err
+            })
+            return;
+        }
+        res.json({
+            code: 0,
+            status: 200,
+            results: result
+        })
+    })
+})
 module.exports = router;

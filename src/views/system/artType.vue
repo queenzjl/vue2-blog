@@ -8,6 +8,7 @@
             <el-table class="table"  :data="tableData" style="width: 100%">
                 <el-table-column align="center" prop="name" label="名称" ></el-table-column>
                 <el-table-column align="center" prop="createtime" label="创建时间"></el-table-column>
+                <el-table-column align="center" prop="updatetime" label="修改时间"></el-table-column>
                 <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="editType(scope.$index, scope.row)">编辑</el-button>
@@ -80,6 +81,7 @@
                         //格式化时间
                         for(let i in results){
                             results[i].createtime = moment(results[i].createtime).format('YYYY-MM-DD HH:mm:ss')
+                            results[i].updatetime = moment(results[i].updatetime).format('YYYY-MM-DD HH:mm:ss')
                         }
                         this.tableData = results;
                     }

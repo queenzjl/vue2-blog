@@ -31,13 +31,25 @@ module.exports = {
         let _id = params._id;
         let name = params.name;
         let updatetime = new Date();
-        if(name != ''){
-            ArtType.updateOne({_id: _id},{$set: {name: name,updatetime: updatetime}}, function(err, result){
-                callback(err);
-            })
-        }else{
+        if(!name){
             callback(-1);
+        }else{
+            ArtType.updateOne({
+              _id: _id
+            }, {
+              $set: {
+                name: name,
+                updatetime: updatetime
+              }
+            }, function (err, result) {
+              callback(err);
+            })
         }
         
+    },
+    remove: function (params, callback) {
+        ArtType.deleteOne(params, function (err, result) {
+            callback(err, result);
+        })
     }
 }
