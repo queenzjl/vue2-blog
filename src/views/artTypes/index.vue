@@ -12,8 +12,8 @@
                                             <router-link :to="{name: 'artDetail', params: {id: article._id}}">
                                                 <h2 class="text-left">{{article.title}}</h2>
                                             </router-link>
-                                            <p>{{article.author}} &nbsp;·&nbsp;<span>{{article.createtime}}</span></p>
-                                            <div class="abstract">{{article.content.substring(0,60)}}</div>
+                                            <p class="author-p">{{article.author}} &nbsp;·&nbsp;<span>{{article.createtime}}</span></p>
+                                            <div class="abstract" v-html="article.content.substring(0,60)"></div>
                                         </div>
                                     </el-card>
                                 </el-col>
@@ -42,6 +42,9 @@ export default {
             articles: []
         }
     },
+    beforeMount() {
+        
+    },
     mounted(){
         axios.get('/art/artTypeList').then(res => {
             if( res.data.code == 0 ){
@@ -49,7 +52,7 @@ export default {
                 
                 this.artTypes = results;
                 //获取第一个分类下的文章
-                this.findType(this.artTypes[0]._id)
+                this.findArticlesByType(this.artTypes[0]._id)
             }
         })
     },
@@ -57,11 +60,11 @@ export default {
         activeTab(tagName){
             let _id = tagName.$attrs._id;
             if(_id){
-                this.findType(_id);
+                this.findArticlesByType(_id);
             }
             
         },
-        findType(typeId){
+        findArticlesByType(typeId){
             axios.get('/art/articleList?type='+typeId).then( (res) => {
                 let data = res.data;
                 if(data.code == 0 && data.results){
@@ -75,6 +78,7 @@ export default {
             })
 
         }
+
     }
 };
 </script>
