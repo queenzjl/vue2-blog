@@ -37,15 +37,54 @@ router.get('/artTypeList', (req, res, next) => {
         if(err){
             res.json({
                 code: 417,
+                status: 1,
                 message: err
             })
             return;
         }
         res.json({
             code: 0,
+            status: 200,
             results: result
         })
     })
 })
-
+//查询某个分类
+router.get('/oneArtType', (req, res, next) => {
+    let _id = req.query._id;
+    if(_id){
+        artTypeModal.findOne(req.query, (err, result) => {
+            if(err){
+                res.json({
+                    code: 417,
+                    status: 1,
+                    message: err
+                })
+                return;
+            }
+            res.json({
+                code: 0,
+                status: 200,
+                results: result
+            })
+        })
+    }
+})
+router.post('/updateType', (req, res, next) => {
+    artTypeModal.updateOne(req, (err, result) => {
+        if(err){
+            res.json({
+                code: 417,
+                status: 1,
+                message: err
+            })
+            return;
+        }
+        res.json({
+            code: 0,
+            status: 200,
+            results: result
+        })
+    })
+})
 module.exports = router;

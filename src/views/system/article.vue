@@ -13,7 +13,7 @@
                 <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini">编辑</el-button>
-                        <el-button size="mini" type="danger">删除</el-button>
+                        <el-button size="mini" type="danger"  @click="removeArticle(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -34,27 +34,42 @@
             }
         },
         mounted(){
-            axios.get('/art/articleList').then( (res) => {
-                if(res.data.code == 0){
-                    let results = res.data.results || [];
-                    if(results){
-                        for(let i in results){
-                            let nowType = results[i].type
-                            let nowTags = results[i].tags
-                            results[i].type = '';
-                            results[i].tags = '';
-                            for(let j in nowType){
-                                results[i].type += nowType[j].name + ' '
+            this.getArticleList();
+        },
+        methods: {
+            getArticleList(){
+                axios.get('/art/articleList').then( (res) => {
+                    if(res.data.code == 0){
+                        let results = res.data.results || [];
+                        if(results){
+                            for(let i in results){
+                                let nowType = results[i].type
+                                let nowTags = results[i].tags
+                                results[i].type = '';
+                                results[i].tags = '';
+                                for(let j in nowType){
+                                    results[i].type += nowType[j].name + ' '
+                                }
+                                for(let j in nowTags){
+                                    results[i].tags += nowTags[j].name+ ' '
+                                }
                             }
-                            for(let j in nowTags){
-                                results[i].tags += nowTags[j].name+ ' '
-                            }
-                        }
-                    } 
-                    this.tableData = results || [];
-                    console.log(this.tableData)
-                }
-            })
+                        } 
+                        this.tableData = results || [];
+                    }
+                })
+            },
+            removeArticle(index, row){
+                let _id = this.tableData[index]._id;
+
+                axios.get('/art/removeArticle?_id='+_id).then( (res) => {
+                    let data = res.data;
+                    if(data.code == 0){
+                        //删除成功
+                        this.getArticleList();
+                    }
+                })
+            }
         }
     }
 </script>

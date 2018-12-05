@@ -2,359 +2,29 @@
     <div class="artTypes-index">
         <el-row class="header">
             <el-col :span="20" >
-                <el-tabs>
-                    <el-tab-pane label="2018">
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
+                <el-tabs @tab-click="activeTab">
+                    <template v-for="type in artTypes" >
+                         <el-tab-pane :label="type.name" :_id="type._id" v-if="articles.length">
+                            <el-row :gutter="20" >
+                                <el-col :span="12" v-for="article in articles">
+                                    <el-card class="box-card">
+                                        <div slot="header" class="clearfix">
+                                            <router-link :to="{name: 'artDetail', params: {id: article._id}}">
+                                                <h2 class="text-left">{{article.title}}</h2>
+                                            </router-link>
+                                            <p>{{article.author}} &nbsp;·&nbsp;<span>{{article.createtime}}</span></p>
+                                            <div class="abstract">{{article.content.substring(0,60)}}</div>
                                         </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                    </el-tab-pane>
-                    <el-tab-pane label="2017">
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                    </el-tab-pane>
-                    <el-tab-pane label="2016">
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                    </el-tab-pane>
-                    <el-tab-pane label="2015">
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-card class="box-card">
-                                    <div slot="header" class="clearfix">
-                                        <h2 class="text-left">卡片名称</h2>
-                                        <p>张静蕾 &nbsp;·&nbsp;<span>2018-04-08</span></p>
-                                        <div class="abstract">
-                                            本文介绍了使用传统Toast存在的问题和对应的解决方案，并详细讲解了美团最终实现的用Snackbar替换Toast的方案
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <el-tag type="success">标签一</el-tag>
-                                        <el-tag type="success">标签二</el-tag>
-                                        <el-tag type="success">标签三</el-tag>
-                                        <el-tag type="success">标签四</el-tag>
-                                        <el-tag type="success">标签五</el-tag>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                    </el-tab-pane>
-                    
-                </el-tabs>
+                                    </el-card>
+                                </el-col>
+                               
+                            </el-row>
+                        </el-tab-pane>
+                        <el-tab-pane :label="type.name" :_id="type._id" v-else>
+                                该分类下暂时没有文章！
+                        </el-tab-pane>
+                    </template>
+                 </el-tabs>
             </el-col>
             
         </el-row>
@@ -362,7 +32,51 @@
     </div>
 </template>
 <script>
-export default {};
+import axios from 'axios';
+import moment from 'moment';
+import './../../assets/css/article.css'
+export default {
+    data(){
+        return {
+            artTypes: [],
+            articles: []
+        }
+    },
+    mounted(){
+        axios.get('/art/artTypeList').then(res => {
+            if( res.data.code == 0 ){
+                let results = res.data.results;
+                
+                this.artTypes = results;
+                //获取第一个分类下的文章
+                this.findType(this.artTypes[0]._id)
+            }
+        })
+    },
+    methods: {
+        activeTab(tagName){
+            let _id = tagName.$attrs._id;
+            if(_id){
+                this.findType(_id);
+            }
+            
+        },
+        findType(typeId){
+            axios.get('/art/articleList?type='+typeId).then( (res) => {
+                let data = res.data;
+                if(data.code == 0 && data.results){
+                    let results = data.results;
+                    for(let i in results){
+                        results[i].createtime = moment(results[i].createtime).format('YYYY-MM-DD HH:mm:ss')
+                    }
+                    this.articles = results;
+                    console.log(this.articles)
+                }
+            })
+
+        }
+    }
+};
 </script>
 <style>
     .artTypes-index .el-row {

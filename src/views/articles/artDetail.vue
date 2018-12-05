@@ -3,8 +3,12 @@
         <el-row>
             <el-col :span="18" :offset="2">
                 <h1>{{articles.title}}</h1>
-                <p class="article_author">{{articles.author}} &nbsp;·&nbsp;<span>{{articles.createtime}}</span></p>
-                <div class="content">{{articles.content}}
+                <p class="article_author">
+                    <span>{{articles.author}}</span> &nbsp;·&nbsp;
+                    <span>{{articles.createtime}}</span> &nbsp;&nbsp;
+                    <span>阅读人数：{{articles.read}}</span>
+                </p>
+                <div class="content markdown-body"  v-html="articles.content">
                 </div>
                 <div class="clearfix">
                     <template v-for="tag in articles.tags">
@@ -18,6 +22,7 @@
 <script>
 import axios from 'axios';
 import moment from 'moment'
+import "mavon-editor/dist/css/index.css";
 export default {
     data(){
         return {
@@ -25,7 +30,7 @@ export default {
         }
     },
     mounted(){
-        axios.get('/art/oneArticle?_id='+ this.$route.params.id).then(res => {
+        axios.get('/art/oneArticle?_id='+ this.$route.params.id).then( (res) => {
             if(res.data.code == 0){
                 let results = res.data.results || [];
                 if(results){
@@ -34,9 +39,17 @@ export default {
                     
                 } 
                 this.articles = results || [];
-                console.log(this.articles)
+
+                this.update();
             }
         })
+    },
+    methods:{
+        update(){
+            axios.get('/art/updateArticle?_id='+ this.$route.params.id).then( (res) => {
+                console.log(res.data)
+            })
+        }
     }
 };
 </script>
@@ -48,6 +61,8 @@ h1 {
 .article_author{
     padding-bottom: 20px;
     border-bottom: 1px solid #ddd;
+    color: #999;
+    font-size: 0.8em;
 }
 .aboutUs-index .content {
     text-align: left;

@@ -43,6 +43,7 @@
     "html-webpack-plugin": "^2.30.1",
     "jest": "^22.0.4",
     "jest-serializer-vue": "^0.3.0",
+    "mavon-editor": "^2.6.17",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.22.2",
     "mongoose": "^5.3.12",

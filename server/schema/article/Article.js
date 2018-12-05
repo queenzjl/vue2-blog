@@ -13,9 +13,15 @@ const articleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "ArtTag"
     }],
-    read: Number,
+    read: {
+        type: Number,
+        default: 0
+    },
     content: String,
-    support: Number,
+    support: {
+        type: Number,
+        default: 0
+    },
     createtime: {
         type: Date,
         default: Date.now

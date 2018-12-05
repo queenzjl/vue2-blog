@@ -10,7 +10,8 @@ const artModel = require("../../models/article/article.js");    //文章业务�
 const artTypeModel = require("../../models/article/artType.js");
 //文章列表
 router.get('/articleList', (req, res, next) => {
-    artModel.findArticle({}, (err, result) => {
+    let params = req.query;
+    artModel.findArticle(params || {}, (err, result) => {
         if(err){
             res.json({
                 code: 417,
@@ -28,7 +29,6 @@ router.get('/articleList', (req, res, next) => {
 })
 //查询谋篇文章
 router.get('/oneArticle',(req, res, next) => {
-    console.log(req.query)
     artModel.findOne({
           _id: req.query._id
         }, (err, result) => {
@@ -73,11 +73,49 @@ router.post("/addArticle", function (req, res, next) {
         });
     })
 })
-//查询文章分类
-// router.get("/addArticle", function(req, res, next){
-//     //查询分类
-//     artTypeModel.findType({}, function(err, result){
-
-//     })
-// })
+//修改文章阅读人数
+router.get("/updateArticle", (req, res, next) => {
+    let params = req.query;
+    artModel.update(params, (err, result) => {
+        if(err){
+            res.json({
+                code: 417,
+                status: 1,
+                message: err
+            })
+            return; 
+        }
+        res.json({
+            code: 0,
+            status: 200,
+            results: result
+        })
+    })
+})
+//删除文章
+router.get('/removeArticle', (req, res, next) => {
+    let params = req.query;
+    if(!params){
+        res.json({
+            code: 417,
+            status: 1,
+            message: '未指定要删除的文章'
+        })
+    }
+    artModel.remove(params, (err, result) => {
+        if(err){
+            res.json({
+                code: 417,
+                status: 1,
+                message: err
+            })
+            return; 
+        }
+        res.json({
+            code: 0,
+            status: 200,
+            results: result
+        })
+    })
+})
 module.exports = router;

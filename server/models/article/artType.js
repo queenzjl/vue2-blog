@@ -10,6 +10,11 @@ module.exports = {
             callback(err, result);
         })
     },
+    findOne: function(params, callback){
+        ArtType.findOne(params || {}, function(err, result){
+            callback(err, result);
+        })
+    },
     addType: function(req, callback){
         let params = req.body;
         if(params.name != ''){
@@ -20,5 +25,19 @@ module.exports = {
         }else{
             callback(-1);   //表单没填写完整
         }
+    },
+    updateOne: function(req, callback){
+        let params = req.body;
+        let _id = params._id;
+        let name = params.name;
+        let updatetime = new Date();
+        if(name != ''){
+            ArtType.updateOne({_id: _id},{$set: {name: name,updatetime: updatetime}}, function(err, result){
+                callback(err);
+            })
+        }else{
+            callback(-1);
+        }
+        
     }
 }
