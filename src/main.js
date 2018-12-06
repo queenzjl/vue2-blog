@@ -8,7 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 // import './mock/mock'
 import axios from 'axios'
+import globalConfigUrl from './config/baseUrl'
 
+axios.defaults.baseURL = globalConfigUrl.baseUrl
 
 Vue.use(elementUI)
 Vue.config.productionTip = false

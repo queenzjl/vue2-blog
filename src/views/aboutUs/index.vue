@@ -36,7 +36,7 @@
 <script>
 export default {};
 </script>
-<style>
+<style scoped>
 h1 {
   font-size: 2em;
   padding: 20px 0;
