@@ -19,22 +19,27 @@
             </el-table>
         </el-row>
 
+        <user-dialog  :dialogRegisterVisible="dialogRegisterVisible" :dialogLoginVisible="dialogLoginVisible"></user-dialog>
     </div>
-    
     
 </template>
 
-
 <script>
+    import userDialog from './../../components/common/userDialog';
     import axios from 'axios';
     export default {
         data(){
             return {
-                tableData: []
+                tableData: [],
+                dialogRegisterVisible:false,
+                dialogLoginVisible: false
             }
         },
         mounted(){
             this.getArticleList();
+        },
+        components: {
+            userDialog
         },
         methods: {
             getArticleList(){
@@ -56,6 +61,8 @@
                             }
                         } 
                         this.tableData = results || [];
+                    }else {
+                        this.handleError(res.data);
                     }
                 })
             },
@@ -69,6 +76,14 @@
                         this.getArticleList();
                     }
                 })
+            },
+            handleError(errData){
+                if(errData.code == 413){
+                    //未登录
+                    console.log("未登录");
+                    console.log(this.dialogRegisterVisible);
+                    this.dialogRegisterVisible = true;
+                }
             }
         }
     }
