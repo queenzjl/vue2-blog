@@ -28,7 +28,7 @@ app.all('*', (req, res, next) => {
     }
 });
 app.use('/art', (req, res, next) => {
-    console.log(req.cookies)
+    // console.log(req.cookies)
     if(req.cookies.userId){
         next();
     }else{

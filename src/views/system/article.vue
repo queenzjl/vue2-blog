@@ -19,7 +19,7 @@
             </el-table>
         </el-row>
 
-        <user-dialog  :dialogRegisterVisible="dialogRegisterVisible" :dialogLoginVisible="dialogLoginVisible"></user-dialog>
+        <user-dialog ref="childMsg"  :dialogRegisterVisible="dialogRegisterVisible" :dialogLoginVisible="dialogLoginVisible"></user-dialog>
     </div>
     
 </template>
@@ -82,7 +82,8 @@
                     //未登录
                     console.log("未登录");
                     console.log(this.dialogRegisterVisible);
-                    this.dialogRegisterVisible = true;
+                    this.dialogRegisterVisible = false;
+                    this.dialogLoginVisible = true;
                 }
             }
         }
