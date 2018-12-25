@@ -78,12 +78,12 @@
             }
         },
         mounted(){
-            axios.get('/art/artTypeList').then( (res) => {
+            axios.get('/system/artTypeList').then( (res) => {
                 if(res.data.code == 0){
                     this.artTypes = res.data.results;
                 }
             })
-            axios.get('/art/artTagList').then( (res) => {
+            axios.get('/system/artTagList').then( (res) => {
                 if(res.data.code == 0){
                     this.artTags = res.data.results;
                 }
@@ -94,7 +94,7 @@
                 
                 this.dialogFormVisible = false;
                 this.form.content = this.contentHtml;
-                axios.post('/art/addArticle', this.form)
+                axios.post('/system/addArticle', this.form)
                 .then( (res) => {
                     if(res.data.code == 0){
                         this.$router.push('/manage')

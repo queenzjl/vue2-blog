@@ -26,7 +26,7 @@
         },
         methods: {
             addForm(){
-                axios.post('/art/addArtTag', this.form)
+                axios.post('/system/addArtTag', this.form)
                 .then( (res) => {
                     console.log(res)
                     if(res.data.code == 0){

@@ -46,7 +46,7 @@ export default {
         
     },
     mounted(){
-        axios.get('/art/artTypeList').then(res => {
+        axios.get('/system/artTypeList').then(res => {
             if( res.data.code == 0 ){
                 let results = res.data.results;
                 
@@ -65,7 +65,7 @@ export default {
             
         },
         findArticlesByType(typeId){
-            axios.get('/art/articleList?type='+typeId).then( (res) => {
+            axios.get('/system/articleList?type='+typeId).then( (res) => {
                 let data = res.data;
                 if(data.code == 0 && data.results){
                     let results = data.results;

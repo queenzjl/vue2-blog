@@ -49,7 +49,7 @@
             }
         },
         mounted(){
-            axios.get('/art/articleList').then(res => {
+            axios.get('/system/articleList').then(res => {
                 if(res.data.code == 0){
                     let results = res.data.results || [];
                     if(results){

@@ -67,7 +67,7 @@
             addForm(){
                 this.dialogFormVisible = false;
 
-                axios.post('/art/addArtTag', {name: this.form.name})
+                axios.post('/system/addArtTag', {name: this.form.name})
                     .then( (res) => {
                         if(res.data.code == 0){
                             // this.$router.push("/manage/artTag");
@@ -79,7 +79,7 @@
             editForm(){
                 this.dialogFormVisible = false;
 
-                axios.post('/art/updateOneTag', this.form)
+                axios.post('/system/updateOneTag', this.form)
                     .then( (res) => {
                         if(res.data.code == 0){
                             // this.$router.push("/manage/artTag");
@@ -88,7 +88,7 @@
                     })
             },
             getArtTagList(){
-                axios.get('/art/artTagList').then( (res) => {
+                axios.get('/system/artTagList').then( (res) => {
                     if( res.data.code == 0 ){
                         let results = res.data.results;
                         //格式化时间
@@ -104,7 +104,7 @@
                 if(!id){
                     return;
                 }
-                axios.get('/art/getOneTag?_id='+ id).then( (res) => {
+                axios.get('/system/getOneTag?_id='+ id).then( (res) => {
                     let data = res.data;
                     if( data.code ==0 ){
                         let result = data.results || [];
@@ -126,7 +126,7 @@
             },
             removeTag(index, row){
                 let _id = this.tableData[index]._id;
-                axios.get('/art/removeTag?_id='+ _id).then( (res) => {
+                axios.get('/system/removeTag?_id='+ _id).then( (res) => {
                     if(res.data.code == 0){
                         this.getArtTagList();
                     }

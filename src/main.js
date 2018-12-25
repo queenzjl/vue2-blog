@@ -13,7 +13,14 @@ import globalConfigUrl from './config/baseUrl'
 axios.defaults.baseURL = globalConfigUrl.baseUrl
 
 Vue.use(elementUI)
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+Vue.prototype.$elementMessage = function (msg,t) {
+  this.$message({
+    message: msg,
+    type: t
+  })
+}
 
 /* eslint-disable no-new */
 new Vue({

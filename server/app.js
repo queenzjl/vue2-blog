@@ -27,7 +27,7 @@ app.all('*', (req, res, next) => {
         next();
     }
 });
-app.use('/art', (req, res, next) => {
+app.use('/system', (req, res, next) => {
     // console.log(req.cookies)
     if(req.cookies.userId){
         next();
@@ -40,7 +40,7 @@ app.use('/art', (req, res, next) => {
     }
 })
 app.use('/user', userRouter);
-app.use("/art", artRouter);
+app.use("/system", artRouter);
 
 app.listen(3000, () => {
     console.log("启动成功");

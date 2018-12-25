@@ -43,7 +43,7 @@
         },
         methods: {
             getArticleList(){
-                axios.get('/art/articleList').then( (res) => {
+                axios.get('/system/articleList').then( (res) => {
                     if(res.data.code == 0){
                         let results = res.data.results || [];
                         if(results){
@@ -69,7 +69,7 @@
             removeArticle(index, row){
                 let _id = this.tableData[index]._id;
 
-                axios.get('/art/removeArticle?_id='+_id).then( (res) => {
+                axios.get('/system/removeArticle?_id='+_id).then( (res) => {
                     let data = res.data;
                     if(data.code == 0){
                         //删除成功
@@ -81,7 +81,6 @@
                 if(errData.code == 413){
                     //未登录
                     console.log("未登录");
-                    console.log(this.dialogRegisterVisible);
                     this.dialogRegisterVisible = false;
                     this.dialogLoginVisible = true;
                 }

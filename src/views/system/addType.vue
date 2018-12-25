@@ -26,7 +26,7 @@
         },
         methods: {
             addForm(){
-                axios.post('/art/addType', this.form)
+                axios.post('/system/addType', this.form)
                 .then( (res) => {
                     console.log(res)
                     if(res.data.code == 0){

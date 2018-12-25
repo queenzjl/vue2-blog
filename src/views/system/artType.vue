@@ -66,7 +66,7 @@
             addForm(){
                 this.dialogFormVisible = false;
 
-                axios.post('/art/addType', {name: this.form.name})
+                axios.post('/system/addType', {name: this.form.name})
                 .then( (res) => {
                     if(res.data.code == 0){
                         // this.$router.push("/manage/artType");
@@ -75,7 +75,7 @@
                 })
             },
             getTypeList(){
-                axios.get('/art/artTypeList').then( (res) => {
+                axios.get('/system/artTypeList').then( (res) => {
                     if( res.data.code == 0 ){
                         let results = res.data.results;
                         //格式化时间
@@ -106,7 +106,7 @@
                 })
             },
             getOneType(id, callback){
-                axios.get('/art/oneArtType?_id='+id).then( (res) => {
+                axios.get('/system/oneArtType?_id='+id).then( (res) => {
                     let data = res.data;
                     if(data.code == 0){
                         let results = data.results || [];
@@ -117,7 +117,7 @@
             editForm(){
                 
                 this.dialogFormVisible = false;
-                axios.post('/art/updateType',this.form).then( (res) => {
+                axios.post('/system/updateType',this.form).then( (res) => {
                     if(res.data.code == 0){
                         this.getTypeList();
                     }
