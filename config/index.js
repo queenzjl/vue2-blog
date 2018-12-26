@@ -21,7 +21,10 @@ module.exports = {
         // secure: false,  // 如果是https接口，需要配置这个参数
         changeOrigin: true
       },
-      "/user": {
+      "/login": {
+        target: "http://localhost:3000" //登录模块
+      },
+      "/front": {
         target: "http://localhost:3000"
       }
     },

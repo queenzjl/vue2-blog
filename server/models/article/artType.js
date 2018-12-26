@@ -6,12 +6,18 @@ const ArtType = require('../../schema/article/ArtType.js'); //文章分类实体
 
 module.exports = {
     findType: function(params, callback){
-        ArtType.find(params || {}, function(err, result){
+        
+        ArtType.find(params || {}).populate([{
+            path: 'author', select: 'name -_id'}]).exec(function (err, result) {
+
             callback(err, result);
         })
     },
     findOne: function(params, callback){
-        ArtType.findOne(params || {}, function(err, result){
+        
+        ArtType.findOne(params || {}).populate([{
+            path: 'author', select: 'name -_id'}]).exec(function (err, result) {
+
             callback(err, result);
         })
     },

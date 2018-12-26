@@ -7,12 +7,13 @@
         <el-row>
             <el-table class="table"  :data="tableData" style="width: 100%">
                 <el-table-column align="center" prop="name" label="名称" ></el-table-column>
+                <el-table-column align="center" prop="author" label="作者" ></el-table-column>
                 <el-table-column align="center" prop="createtime" label="创建时间"></el-table-column>
                 <el-table-column align="center" prop="updatetime" label="修改时间"></el-table-column>
                 <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="editType(scope.$index, scope.row)">编辑</el-button>
-                        <el-button size="mini" type="danger">删除</el-button>
+                        <el-button size="mini" type="danger" @click="removeType(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -30,6 +31,10 @@
                 <el-button type="primary" @click="submitForm">确认</el-button>
             </div>
         </el-dialog>
+
+        <user-dialog ref="childMsg"  @isLogined="getTypeList" 
+            :dialogLoginVisible="dialogLoginVisible">
+        </user-dialog>
     </div>
     
     
@@ -37,6 +42,7 @@
 
 
 <script>
+    import userDialog from './../../components/common/userDialog';
     import axios from 'axios';
     import moment from 'moment';
     export default {
@@ -44,16 +50,25 @@
             return {
                 tableData: [],
                 dialogFormVisible: false,
+                dialogLoginVisible: false,
                 form: {
                     name: '',
-                    _id: ''
+                    _id: '',
+                    author: this.GLOBAL.userId,
                 },
                 isAddOperate: true,
-                isShow: false
+                isShow: false,
+                rank: {
+                    0: '超级管理员',
+                    1: '普通会员'
+                }
             }
         },
         mounted(){
             this.getTypeList();
+        },
+        components: {
+            userDialog
         },
         methods: {
             submitForm(){
@@ -66,7 +81,7 @@
             addForm(){
                 this.dialogFormVisible = false;
 
-                axios.post('/system/addType', {name: this.form.name})
+                axios.post('/system/addType', {name: this.form.name, author: this.form.author})
                 .then( (res) => {
                     if(res.data.code == 0){
                         // this.$router.push("/manage/artType");
@@ -75,15 +90,25 @@
                 })
             },
             getTypeList(){
-                axios.get('/system/artTypeList').then( (res) => {
+                let params = '';
+                if(this.GLOBAL.userId && this.GLOBAL.userRank == 1 ){
+                    params = '?author=' + this.GLOBAL.userId;
+                }
+                axios.get('/system/artTypeList' + params).then( (res) => {
                     if( res.data.code == 0 ){
                         let results = res.data.results;
                         //格式化时间
                         for(let i in results){
                             results[i].createtime = moment(results[i].createtime).format('YYYY-MM-DD HH:mm:ss')
                             results[i].updatetime = moment(results[i].updatetime).format('YYYY-MM-DD HH:mm:ss')
+
+                            //格式化作者
+                            results[i].author = results[i].author.name;
                         }
                         this.tableData = results;
+                        this.dialogLoginVisible = false;
+                    }else {
+                        this.handleError(res.data);
                     }
                 })
             },
@@ -122,6 +147,35 @@
                         this.getTypeList();
                     }
                 })
+            },
+            removeType(index, row){
+
+                this.$confirm('确定要删除此分类吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+
+                    //确定删除
+                    let _id = this.tableData[index]._id;
+
+                    axios.get('/system/removeType?_id='+ _id).then( (res) => {
+                        if(res.data.code == 0){
+                            this.getTypeList();
+                        }
+                    })
+                    
+                }).catch(() => {
+
+                    return;         
+                });
+                
+            },
+            handleError(errData){
+                if(errData.code == 413){
+                    //未登录
+                    this.dialogLoginVisible = true;
+                }
             }
         }
     }

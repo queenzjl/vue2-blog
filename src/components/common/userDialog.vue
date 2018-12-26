@@ -25,8 +25,8 @@
                 </el-tab-pane>
                 <el-tab-pane label="注册" name="second">
                     <el-form :model="form" :rules="rules" ref="form">
-                        <el-form-item prop="name">
-                            <el-input v-model="form.name" placeholder="用户名"></el-input>
+                        <el-form-item prop="name" class="reg-name">
+                            <el-input v-model="form.name" placeholder="用户名" @blur="checkUser"></el-input>
                         </el-form-item>
                         <el-form-item prop="password">
                             <el-input v-model="form.password" type="password" placeholder="密码"></el-input>
@@ -35,7 +35,7 @@
                             <el-input v-model="form.confirmPwd" type="password" placeholder="确认密码"></el-input>
                         </el-form-item>
                         <el-form-item style="margin:0; color:red;">
-                            <span>{{errMsg}}</span>
+                            <span>{{regErrMsg}}</span>
                         </el-form-item>
                         <el-form-item>
                             <el-button style="width: 100%" type="primary" :disabled="isDisable" @click="submitRegister('form')">注册</el-button>
@@ -50,13 +50,8 @@
 </template>
 <script>
     import axios from 'axios';
-
     export default {
         props: {
-            dialogRegisterVisible: {
-                type: Boolean,
-                default: false
-            },
             dialogLoginVisible:{
                 type: Boolean,
                 default: false
@@ -66,8 +61,8 @@
             return{
                 labelPosition: 'right',
                 activeName: 'first',
-                errMsg: '',
-                loginErrMsg: '',
+                regErrMsg: '',
+                loginErrMsg: '',    //登录错误提示
                 loginForm: {
                     name: '',
                     password: ''
@@ -92,13 +87,17 @@
                 }
             }
         },
+        mounted(){
+            this.checkLogin();
+        },
         computed: {
             isDisable: function () {
-                this.errMsg = '';
+                this.regErrMsg = '';
                 if(!this.form.name || !this.form.password || !this.form.confirmPwd){
                    
                     return true;
                 }else if(this.$refs.form){
+
                     this.$refs.form.validate( (valid) => {
                         if(valid){
                             return false;
@@ -107,10 +106,9 @@
                         return true;
                     })
                 }
-                
             },
             isLoginDisable: function () {
-                this.errMsg = '';
+                this.loginErrMsg = '';
                 if(!this.loginForm.name || !this.loginForm.password){
                    
                     return true;
@@ -123,48 +121,58 @@
                         return true;
                     })
                 }
-                
             }
         },
         methods:{
-            submitRegister(form){ 
-                let _this = this;
-                this.$refs[form].validate( (valid) => {
-                    if(valid){
-                        // this.dialogLoginVisible = false;
-                        const loading = this.$loading({
-                            lock: true,
-                            text: '正在提交...',
-                            spinner: 'el-icon-loading',
-                            background: 'rgba(0, 0, 0, 0.7)'
-                        });
+            //提交注册信息
+            async submitRegister(form){
 
-                        axios.post('/user/addUser', this.form).then( res => {
-                            let data = res.data;
-                            if(data.code == 0){
-                                //成功
+                await this.checkUser();//校验用户名
+                if(this.regErrMsg){
+                    
+                    return ;
+                }else{
+                    let _this = this;
+                    this.$refs[form].validate( (valid) => {
+                        if(valid){
+                            // this.dialogLoginVisible = false;
+                            const loading = this.$loading({
+                                lock: true,
+                                text: '正在提交...',
+                                spinner: 'el-icon-loading',
+                                background: 'rgba(0, 0, 0, 0.7)'
+                            });
 
-                                setTimeout(function(){
+                            axios.post('/login/addUser', this.form).then( res => {
+                                let data = res.data;
+                                if(data.code == 0){
+                                    //成功
+
+                                    setTimeout(function(){
+                                        loading.close();
+                            
+                                        // this.$message('注册成功，请重新登录！');
+                                        _this.$message('注册成功，请重新登录！', 'primary');
+
+                                        _this.$refs[form].resetFields();
+
+                                        _this.activeName = 'first';
+                                    }, 500)
+                                    
+
+                                }else{
+                                    this.regErrMsg = data.message;
                                     loading.close();
-                        
-                                    // this.$message('注册成功，请重新登录！');
-                                    _this.$elementMessage('注册成功，请重新登录！', 'primary');
+                                }
+                            })
+                        }
+                    })
+                }
 
-                                    _this.$refs[form].resetFields();
-
-                                    _this.activeName = 'first';
-                                }, 500)
-                                
-
-                            }else{
-                                this.errMsg = data.message;
-                                loading.close();
-                            }
-                        })
-                    }
-                })
             },
+            //提交登录
             submitLogin(form){
+
                 let _this = this;
                 
                 this.$refs[form].validate( (valid) => {
@@ -178,7 +186,7 @@
 
                         let name = _this.loginForm.name;
                         let password = _this.loginForm.password;
-                        let url = '/user/login?name=' + name + '&password=' + password
+                        let url = '/login/login?name=' + name + '&password=' + password
                        
                         axios.get(url).then( (res) => {
                             let data = res.data;
@@ -186,18 +194,48 @@
                                 //登录成功
                                 _this.$message('登录成功！');
 
-                                _this.isLoginDisable = false;
+                                _this.$refs[form].resetFields();    //重置登录表单
 
-                                _this.$refs[loginForm].resetFields();
+                                loading.close();    //隐藏加载框
 
-                                location.reload();
+                                //保存全局用户信息
+                                let result = data.results;
+                                _this.GLOBAL.username = result.name;
+                                _this.GLOBAL.userId = result._id;
+                                _this.GLOBAL.userRank = result.rank;
+                               
+
+                                _this.$emit('isLogined');   //触发父组件的isLogined方法
+
                             }else{
+
                                 this.loginErrMsg = data.message;
+
                                 loading.close();
                             }
                         })
                         
-                        
+                    }
+                })
+            },
+            //校验用户名
+            async checkUser(){
+                await axios.get('/login/checkUser?name=' + this.form.name).then( (res) => {
+                    let data = res.data;
+                    if(data.code !== 0){
+                        this.regErrMsg = data.message;
+                    }
+                }) 
+            },
+            async checkLogin(){
+                let _this = this;
+
+                await axios.get('/login/checkLogin').then( (res) => {
+                    let data = res.data;
+                    if(data.code == 0){
+                        _this.GLOBAL.username = data.results[0].username;
+                        _this.GLOBAL.userId = data.results[0].userId;
+                        // _this.GLOBAL.userRank = data.results.userRank;
                     }
                 })
             }

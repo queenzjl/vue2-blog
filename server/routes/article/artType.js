@@ -33,7 +33,7 @@ router.post('/addType', (req, res, next) => {
 
 //文章分类列表
 router.get('/artTypeList', (req, res, next) => {
-    artTypeModal.findType({}, (err, result) => {
+    artTypeModal.findType(req.query || {}, (err, result) => {
         if(err){
             res.json({
                 code: 417,
@@ -96,7 +96,7 @@ router.get('/removeType', (req, res, next) => {
             message: '未指定要删除的分类！'
         })
     }
-    artModel.remove(params, (err, result) => {
+    artTypeModal.remove(params, (err, result) => {
         if (err) {
             res.json({
             code: 417,

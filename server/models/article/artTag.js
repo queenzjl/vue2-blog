@@ -6,12 +6,18 @@ const ArtTag = require('../../schema/article/ArtTag.js');
 
 module.exports = {
     findTag: function(req, callback) {
-        ArtTag.find(req || {}, function(err, result){
+        
+        ArtTag.find(req || {}).populate([{
+            path: 'author', select: 'name -_id'}]).exec(function (err, result) {
+
             callback(err, result);
         })
     },
     findOneTag: function(params, callback){
-        ArtTag.findOne(params || {}, function(err, result){
+       
+        ArtTag.findOne(params || {}).populate([{
+            path: 'author', select: 'name -_id'}]).exec(function (err, result) {
+
             callback(err, result);
         })
     },

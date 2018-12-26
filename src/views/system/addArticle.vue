@@ -35,9 +35,14 @@
                 <el-button type="primary" @click="addForm">发布</el-button>
             </div>
         </el-dialog>
+
+        <user-dialog ref="childMsg"  @isLogined="getDataList"  
+            :dialogLoginVisible="dialogLoginVisible">
+        </user-dialog>
     </div>
 </template>
 <script>
+    import userDialog from './../../components/common/userDialog';
     import Vue from 'vue'
     import axios from 'axios';
     import mavonEditor from 'mavon-editor'
@@ -49,13 +54,14 @@
             return {
                 form: {
                     title: '',
-                    author: '静蕾',
+                    author: this.GLOBAL.userId,
                     tags: [],
                     type: [],
                     read: '',
                     support: '',
                     content: ''
                 },
+                dialogLoginVisible: false,
                 dialogFormVisible: false,
                 contentHtml: '',
                 rules: {
@@ -78,16 +84,11 @@
             }
         },
         mounted(){
-            axios.get('/system/artTypeList').then( (res) => {
-                if(res.data.code == 0){
-                    this.artTypes = res.data.results;
-                }
-            })
-            axios.get('/system/artTagList').then( (res) => {
-                if(res.data.code == 0){
-                    this.artTags = res.data.results;
-                }
-            })
+            this.getDataList();
+            
+        },
+        components: {
+            userDialog
         },
         methods: {
             addForm(){
@@ -106,6 +107,35 @@
             },
             changeData(value, render){
                 this.contentHtml = render;
+            },
+            handleError(errData){
+                if(errData.code == 413){
+                    //未登录
+                    this.dialogLoginVisible = true;
+                }
+            },
+            getDataList(){
+                this.getTypeList();
+                this.getTagList();
+            },
+            getTypeList(){
+                axios.get('/system/artTypeList').then( (res) => {
+                    if(res.data.code == 0){
+                        this.artTypes = res.data.results;
+                    }else {
+                        this.handleError(res.data);
+                    }
+                })
+                
+            },
+            getTagList(){
+                axios.get('/system/artTagList').then( (res) => {
+                    if(res.data.code == 0){
+                        this.artTags = res.data.results;
+                    }else {
+                        this.handleError(res.data);
+                    }
+                })
             }
         }
     }

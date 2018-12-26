@@ -15,9 +15,8 @@ const artDetail = r => require.ensure([], () => r(require('../views/articles/art
 const article = r => require.ensure([], () => r(require('../views/system/article')), 'article')
 const addArticle = r => require.ensure([], () => r(require('../views/system/addArticle.vue')), 'addArticle');
 const artType = r => require.ensure([], () => r(require('../views/system/artType.vue')),'artType');
-const addType = r => require.ensure([], () => r(require('../views/system/addType.vue')), 'addType');
 const artTag = r => require.ensure([], () => r(require('../views/system/artTag.vue')), 'artTag');
-const addTag = r => require.ensure([], () => r(require('../views/system/addTag.vue')), 'addTag');
+const userManage = r => require.ensure([], () => r(require('../views/system/userManage.vue')), 'userManage');
 
 export default new Router({
   routes: [
@@ -81,16 +80,12 @@ export default new Router({
           component: artType
         },
         {
-          path: '/manage/addType',
-          component: addType
-        },
-        {
           path: '/manage/artTag',
           component: artTag
         },
         {
-          path: '/manage/addTag',
-          component: addTag
+          path: '/manage/userManage',
+          component: userManage
         }
       ]
     }

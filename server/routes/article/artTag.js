@@ -29,7 +29,7 @@ router.post('/addArtTag', (req, res, next) => {
 });
 
 router.get('/artTagList', (req, res, next) => {
-    artTagModel.findTag({}, (err, result) => {
+    artTagModel.findTag(req.query || {}, (err, result) => {
         if(err){
             res.json({
               code: 417,

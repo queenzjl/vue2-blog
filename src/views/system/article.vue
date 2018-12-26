@@ -19,7 +19,9 @@
             </el-table>
         </el-row>
 
-        <user-dialog ref="childMsg"  :dialogRegisterVisible="dialogRegisterVisible" :dialogLoginVisible="dialogLoginVisible"></user-dialog>
+        <user-dialog ref="childMsg"  @isLogined="getArticleList"  
+            :dialogLoginVisible="dialogLoginVisible">
+        </user-dialog>
     </div>
     
 </template>
@@ -31,7 +33,6 @@
         data(){
             return {
                 tableData: [],
-                dialogRegisterVisible:false,
                 dialogLoginVisible: false
             }
         },
@@ -43,7 +44,11 @@
         },
         methods: {
             getArticleList(){
-                axios.get('/system/articleList').then( (res) => {
+                let params = '';
+                if(this.GLOBAL.userId && this.GLOBAL.userRank == 1 ){
+                    params = '?author=' + this.GLOBAL.userId;
+                }
+                axios.get('/system/articleList' + params).then( (res) => {
                     if(res.data.code == 0){
                         let results = res.data.results || [];
                         if(results){
@@ -58,30 +63,47 @@
                                 for(let j in nowTags){
                                     results[i].tags += nowTags[j].name+ ' '
                                 }
+                                results[i].author = results[i].author.name 
+                                
+                                
+                                
                             }
                         } 
                         this.tableData = results || [];
+                        this.dialogLoginVisible = false;
                     }else {
                         this.handleError(res.data);
                     }
                 })
             },
             removeArticle(index, row){
-                let _id = this.tableData[index]._id;
 
-                axios.get('/system/removeArticle?_id='+_id).then( (res) => {
-                    let data = res.data;
-                    if(data.code == 0){
-                        //删除成功
-                        this.getArticleList();
-                    }
-                })
+                this.$confirm('确定要删除此篇文章?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+
+                    let _id = this.tableData[index]._id;
+
+                    axios.get('/system/removeArticle?_id='+_id).then( (res) => {
+                        let data = res.data;
+                        if(data.code == 0){
+                            //删除成功
+                            this.getArticleList();
+                        }
+                    })
+                    
+                }).catch(() => {
+
+                    return;         
+                });
+
+                
             },
             handleError(errData){
                 if(errData.code == 413){
                     //未登录
-                    console.log("未登录");
-                    this.dialogRegisterVisible = false;
                     this.dialogLoginVisible = true;
                 }
             }

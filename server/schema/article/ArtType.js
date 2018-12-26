@@ -6,6 +6,10 @@ const moment = require('moment');
 
 const artTypeSchema = new Schema({
     name: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     createtime: {
         type: Date,
         default: Date.now, 

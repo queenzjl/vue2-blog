@@ -6,8 +6,9 @@ const bodyParser = require("body-parser");
 
 const cookieParser = require('cookie-parser');
 
-const artRouter = require('./routes/article'); //
-const userRouter = require('./routes/user');
+const sysRouter = require('./routes'); //
+const loginRouter = require('./routes/user/login');
+
 
 const db = require("./config/db.js");   //打开数据库
 
@@ -28,7 +29,7 @@ app.all('*', (req, res, next) => {
     }
 });
 app.use('/system', (req, res, next) => {
-    // console.log(req.cookies)
+    
     if(req.cookies.userId){
         next();
     }else{
@@ -39,8 +40,9 @@ app.use('/system', (req, res, next) => {
         })
     }
 })
-app.use('/user', userRouter);
-app.use("/system", artRouter);
+app.use('/login', loginRouter);
+app.use("/system", sysRouter);  //后台访问路径
+app.use("/front", sysRouter);  //前端访问路径
 
 app.listen(3000, () => {
     console.log("启动成功");

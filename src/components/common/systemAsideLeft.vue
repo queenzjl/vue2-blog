@@ -4,7 +4,7 @@
             <el-col :span="24">
                 <h5><router-link to="/">博客技术分享</router-link></h5>
                 <el-menu
-                    default-active="article"
+                    :default-active="nowPath"
                     class="el-menu-vertical-demo"
                     background-color="#2A2935"
                     text-color="#fff"
@@ -38,9 +38,11 @@
 export default {
     data(){
         return {
+            nowPath: (this.$route.path).substr(8) == 'addArticle' ? 'article' : (this.$route.path).substr(8)
         }
     },
     mounted(){
+        
     }
 };
 </script>

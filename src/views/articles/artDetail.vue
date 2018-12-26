@@ -30,7 +30,7 @@ export default {
         }
     },
     mounted(){
-        axios.get('/system/oneArticle?_id='+ this.$route.params.id).then( (res) => {
+        axios.get('/front/oneArticle?_id='+ this.$route.params.id).then( (res) => {
             if(res.data.code == 0){
                 let results = res.data.results || [];
                 if(results){
@@ -46,7 +46,7 @@ export default {
     },
     methods:{
         update(){
-            axios.get('/system/updateArticle?_id='+ this.$route.params.id).then( (res) => {
+            axios.get('/front/updateArticle?_id='+ this.$route.params.id).then( (res) => {
                 console.log(res.data)
             })
         }

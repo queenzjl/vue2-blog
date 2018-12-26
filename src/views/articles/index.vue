@@ -15,7 +15,10 @@
         </el-row>
         <!-- 内容 -->
         <el-row :gutter="20">
-            <el-col :span="10" v-for="(article, index) in articles" >
+
+            <el-col v-if="!articles.length">暂时没有数据!</el-col>
+            
+            <el-col :span="10" v-else v-for="(article, index) in articles" >
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
                         <router-link :to="{name: 'artDetail', params: {id: article._id}}">
@@ -32,6 +35,7 @@
                         </template>
                     </div>
                 </el-card>
+                
             </el-col>
           
         </el-row>
@@ -49,7 +53,7 @@
             }
         },
         mounted(){
-            axios.get('/system/articleList').then(res => {
+            axios.get('/front/articleList').then(res => {
                 if(res.data.code == 0){
                     let results = res.data.results || [];
                     if(results){

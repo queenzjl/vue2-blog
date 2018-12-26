@@ -46,7 +46,7 @@ export default {
         
     },
     mounted(){
-        axios.get('/system/artTypeList').then(res => {
+        axios.get('/front/artTypeList').then(res => {
             if( res.data.code == 0 ){
                 let results = res.data.results;
                 
@@ -65,7 +65,7 @@ export default {
             
         },
         findArticlesByType(typeId){
-            axios.get('/system/articleList?type='+typeId).then( (res) => {
+            axios.get('/front/articleList?type='+typeId).then( (res) => {
                 let data = res.data;
                 if(data.code == 0 && data.results){
                     let results = data.results;
@@ -73,7 +73,6 @@ export default {
                         results[i].createtime = moment(results[i].createtime).format('YYYY-MM-DD HH:mm:ss')
                     }
                     this.articles = results;
-                    console.log(this.articles)
                 }
             })
 

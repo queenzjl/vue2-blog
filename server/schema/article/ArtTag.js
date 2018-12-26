@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const artTagSchema = new Schema({
     name: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     createtime: {
         type: Date,
         default: Date.now

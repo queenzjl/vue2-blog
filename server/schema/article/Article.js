@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 
 const articleSchema = new Schema({
     title: String,
-    author: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     type: [{
         type: Schema.Types.ObjectId,
         ref: "ArtType"

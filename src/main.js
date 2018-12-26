@@ -9,18 +9,15 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import './mock/mock'
 import axios from 'axios'
 import globalConfigUrl from './config/baseUrl'
+import Global from './config/global';
 
 axios.defaults.baseURL = globalConfigUrl.baseUrl
 
 Vue.use(elementUI)
 Vue.config.productionTip = false;
 
-Vue.prototype.$elementMessage = function (msg,t) {
-  this.$message({
-    message: msg,
-    type: t
-  })
-}
+Vue.prototype.GLOBAL = Global;  //挂载到Vue实例上面
+
 
 /* eslint-disable no-new */
 new Vue({
