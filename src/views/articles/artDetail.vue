@@ -36,7 +36,8 @@ export default {
                 if(results){
                     
                     results.createtime = moment(results.createtime).format('YYYY-MM-DD HH:mm:ss')
-                    
+                    //格式化文章作者
+                    results.author = results.author.name;
                 } 
                 this.articles = results || [];
 

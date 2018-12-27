@@ -13,7 +13,7 @@
                                                 <h2 class="text-left">{{article.title}}</h2>
                                             </router-link>
                                             <p class="author-p">{{article.author}} &nbsp;·&nbsp;<span>{{article.createtime}}</span></p>
-                                            <div class="abstract" v-html="article.content.substring(0,60)"></div>
+                                            <div class="abstract">{{article.content| filterHtml}}</div>
                                         </div>
                                     </el-card>
                                 </el-col>
@@ -40,6 +40,11 @@ export default {
         return {
             artTypes: [],
             articles: []
+        }
+    },
+    filters: {
+        filterHtml: function(value){
+            return value.replace(/<[^>]+>/g,"").substring(0,90)+"......"
         }
     },
     beforeMount() {
@@ -70,7 +75,9 @@ export default {
                 if(data.code == 0 && data.results){
                     let results = data.results;
                     for(let i in results){
-                        results[i].createtime = moment(results[i].createtime).format('YYYY-MM-DD HH:mm:ss')
+                        results[i].createtime = moment(results[i].createtime).format('YYYY-MM-DD HH:mm:ss');
+                        
+                        results[i].author = results[i].author.name;
                     }
                     this.articles = results;
                 }

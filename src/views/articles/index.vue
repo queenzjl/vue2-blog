@@ -25,7 +25,7 @@
                             <h2 class="text-left">{{article.title}}</h2>
                         </router-link>
                         <p class="author-p">{{article.author}} &nbsp;·&nbsp;<span>{{article.createtime}}</span></p>
-                        <div class="abstract" v-html=" article.content.substring(0,60)">
+                        <div class="abstract" >{{article.content | filterHtml}}
                            
                         </div>
                     </div>
@@ -52,6 +52,11 @@
                 activeName: 'first'
             }
         },
+        filters: {
+            filterHtml: function(value){
+                return value.replace(/<[^>]+>/g,"").substring(0,90)+"......"
+            }
+        },
         mounted(){
             axios.get('/front/articleList').then(res => {
                 if(res.data.code == 0){
@@ -60,7 +65,10 @@
                         for(let i in results){
                             let nowType = results[i].type
                             let nowTags = results[i].tags
-                            results[i].createtime = moment(results[i].createtime).format('YYYY-MM-DD HH:mm:ss')
+                            results[i].createtime = moment(results[i].createtime).format('YYYY-MM-DD HH:mm:ss');
+
+                            //格式化文章作者
+                            results[i].author = results[i].author.name;
                         }
                     } 
                     this.articles = results || [];
