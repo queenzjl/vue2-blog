@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 const router = express.Router();
 
-const User = require('../../schema/user/User.js');    //user实体操作对象
+const User = require('../../schema/user/user.js');    //user实体操作对象
 
 module.exports = {
     addForm: function(req, callback){
